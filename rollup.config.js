@@ -2,7 +2,7 @@ import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from 'rollup-plugin-babel';
-import html from '@rollup/plugin-html';
+// import html from '@rollup/plugin-html';
 import scss from 'rollup-plugin-scss';
 import { terser } from 'rollup-plugin-terser';
 import serve from 'rollup-plugin-serve';
@@ -20,6 +20,7 @@ export default {
     plugins: [
         replace({
             'process.env.NODE_ENV': JSON.stringify(isProd ? 'production' : 'development'),
+            preventAssignment: true,
         }),
         resolve({
             extensions,
@@ -76,7 +77,7 @@ export default {
         (isProd && terser()),
         (!isProd && serve({
             host: 'localhost',
-            port: 3000,
+            port: 8080,
             open: true,
             contentBase: [''],
         })),
