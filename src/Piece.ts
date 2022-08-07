@@ -13,7 +13,7 @@ const getPhysicsDefinitions = (width: number, height: number) => {
     const fixtureDef = new b2FixtureDef();
 
     // doesn't participate in collisions? need to check
-    fixtureDef.isSensor = false;
+    // fixtureDef.isSensor = false;
 
     // mass per volume
     fixtureDef.density = 1;
@@ -22,7 +22,7 @@ const getPhysicsDefinitions = (width: number, height: number) => {
     fixtureDef.friction = 0;
 
     // bounciness
-    fixtureDef.restitution = 0;
+    fixtureDef.restitution = 1;
 
     fixtureDef.shape = new b2PolygonShape();
     (fixtureDef.shape as b2PolygonShape).SetAsBox(width / 2, height / 2);

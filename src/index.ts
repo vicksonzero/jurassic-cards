@@ -70,7 +70,13 @@ let mouseJoint: b2MouseJoint | null = null;
 let dragStartTime = 0;
 let dragStartPos = { x: 0, y: 0 };
 const createMouseJoint = (draggedBody: b2Body, point: b2Vec2) => {
-    const dummyBody = worldBorders.borders[0];
+    const dummyBody = worldBorders.b2Body;
+    if (!dummyBody) {
+        console.warn(`Can't create mouseJoint, world has no border?!`);
+        return null;
+    }
+
+
     //if joint exists then create
     var def = new b2MouseJointDef() as b2IMouseJointDef;
 
@@ -80,8 +86,8 @@ const createMouseJoint = (draggedBody: b2Body, point: b2Vec2) => {
 
     def.collideConnected = true;
     def.maxForce = PHYSICS_MAX_DRAG_FORCE * draggedBody.GetMass();
-    def.dampingRatio = 0;
-    // def.frequencyHz
+    def.dampingRatio = 0.1;
+    def.frequencyHz = 1;
     return physicsSystem.world.CreateJoint(def);
 };
 
@@ -116,7 +122,8 @@ window.addEventListener('pointerdown', (evt: PointerEvent) => {
     );
     if (mouseJoint) physicsSystem.world.DestroyJoint(mouseJoint);
     mouseJoint = createMouseJoint(piece.b2Body, point);
-    piece.b2Body.SetAwake(true);
+    // piece.b2Body.SetType(b2BodyType.b2_kinematicBody);
+    // piece.b2Body.SetAwake(true);
 });
 window.addEventListener('pointermove', (evt: PointerEvent) => {
     if (!mouseJoint) return;
@@ -128,8 +135,10 @@ window.addEventListener('pointermove', (evt: PointerEvent) => {
     // if (countMoves % 10 === 0) console.log('countMoves 10 times');
 
     // if (canDrag) {
-    mouseJoint.m_targetA.x = evt.x * PIXEL_TO_METER;
-    mouseJoint.m_targetA.y = evt.y * PIXEL_TO_METER;
+    mouseJoint.SetTarget(new b2Vec2(
+        evt.x * PIXEL_TO_METER,
+        evt.y * PIXEL_TO_METER
+    ));
     mouseJoint.GetBodyB().SetAwake(true);
     //     canDrag = false;
     // }
@@ -147,6 +156,7 @@ window.addEventListener('pointerup', (evt: PointerEvent) => {
 
     piece.toggleDragged(false);
     physicsSystem.world.DestroyJoint(mouseJoint);
+    // draggedBody.SetType(b2BodyType.b2_dynamicBody);
     mouseJoint = null;
 
     const dragTime = Date.now() - dragStartTime;
@@ -167,8 +177,15 @@ const timeStep = Math.floor(1000 / frameSize);
 setInterval(() => {
     const ctx = debugDraw.m_ctx;
     if (ctx) ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    if (mouseJoint) mouseJoint.SetTarget(new b2Vec2(
+        mouseJoint.m_targetA.x,
+        mouseJoint.m_targetA.y
+    ));
     physicsSystem.update(
         timeStep,
         // (DEBUG_PHYSICS ? this.physicsDebugLayer : undefined)
     );
+    // mouseJoint && physicsSystem.world.DrawJoint(mouseJoint);
+
 }, frameSize);
