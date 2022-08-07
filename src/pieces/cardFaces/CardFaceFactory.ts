@@ -8,15 +8,16 @@ export type CardData = {
 }
 
 
-export type CardFaceReference = { type: string, collection: string, cardId: string };
-export type BasicCardFaceData = {
+export type BaseCardFaceData = {
     type: string,
+}
+export type CardFaceReference = BaseCardFaceData & { collection: string, cardId: string };
+export type BasicCardFaceData = BaseCardFaceData & {
     id: string,
     title: string,
     description: string,
 };
-export type BasicCardBackData = {
-    type: string,
+export type BasicCardBackData = BaseCardFaceData & {
     cardType: string,
     color: string,
 };

@@ -120,6 +120,8 @@ window.addEventListener('pointerdown', (evt: PointerEvent) => {
     evt.preventDefault();
     evt.stopPropagation();
 
+    if (piece.parentPiece != null) return; // deal with this case later
+
     dragStartTime = Date.now();
     dragStartPos = { x: evt.x, y: evt.y };
     piece.bringToTop().toggleDragged(true);

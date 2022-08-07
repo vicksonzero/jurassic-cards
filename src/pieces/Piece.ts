@@ -77,6 +77,8 @@ export abstract class Piece implements PhysicsTransform {
 
     public b2Body?: b2Body;
 
+    public parentPiece?: Piece;
+
     public angle = 0;
     public selected = false;
     public dragged = false;
@@ -185,6 +187,11 @@ export abstract class Piece implements PhysicsTransform {
 
     action(): this {
         console.log('Action');
+        return this;
+    }
+
+    stackedBy(other: Piece): this {
+        console.log('stackedBy');
         return this;
     }
 
