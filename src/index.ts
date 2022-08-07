@@ -1,4 +1,4 @@
-import { Piece } from './Piece';
+import { Piece } from './pieces/Piece';
 import { add } from './utils/math';
 import './index.scss'
 import { PhysicsSystem } from './PhysicsSystem';
@@ -6,9 +6,9 @@ import { b2Body, b2IMouseJointDef, b2MouseJoint, b2MouseJointDef, b2Vec2, b2Draw
 import { DebugDraw } from './utils/DebugDraw';
 import { PIXEL_TO_METER, METER_TO_PIXEL, WORLD_WIDTH, WORLD_HEIGHT, PHYSICS_MAX_DRAG_FORCE } from './constants';
 import { WorldBorders } from './WorldBorders';
-import { Card } from './Card';
-import { cardBack1 } from './cards/cardBack1';
-import { tileCard } from './cards/tileCard';
+import { Card } from './pieces/Card';
+import { cardBack1, cardBack2 } from './pieces/cardFaces/cardBacks';
+import { tileCard } from './pieces/cardFaces/tileCard';
 
 
 const physicsSystem = new PhysicsSystem();
@@ -41,7 +41,7 @@ debugDraw.SetFlags(flags);
 
 
 const cardFaceDelegate = tileCard({});
-const cardBackDelegate = cardBack1({});
+const cardBackDelegate = cardBack2({});
 const w = 100;
 const h = 100 * 1.667;
 let x = 10 + w / 2;

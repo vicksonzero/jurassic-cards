@@ -1,8 +1,8 @@
 import { b2Body, b2PolygonShape } from "@flyover/box2d";
-import { IFixtureUserData, PhysicsSystem, PhysicsTransform } from "./PhysicsSystem";
+import { IFixtureUserData, PhysicsSystem, PhysicsTransform } from "../PhysicsSystem";
 import { b2FixtureDef, b2CircleShape, b2BodyDef, b2BodyType } from "@flyover/box2d";
-import { collisionCategory } from "./utils/collisionCategory";
-import { PIXEL_TO_METER } from "./constants";
+import { collisionCategory } from "../utils/collisionCategory";
+import { PIXEL_TO_METER } from "../constants";
 
 
 
