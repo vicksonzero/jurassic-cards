@@ -3,6 +3,7 @@
     padding: 0;
     user-select: none;
     box-sizing: border-box;
+    -webkit-text-size-adjust: none;
 }
 
 #debugCanvas {
@@ -32,7 +33,6 @@
     transform-style: preserve-3d;
     pointer-events: none;
 
-    
     .piece.selected & {
         box-shadow: 0px 0px 0px 4px rgba(0, 255, 0, 1);
         // border: 2px lime solid;

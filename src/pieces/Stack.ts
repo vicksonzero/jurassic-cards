@@ -4,7 +4,7 @@ import { Piece } from "./Piece";
 
 export type CardFaceDelegate = (div: HTMLDivElement) => void;
 
-export class Card extends Piece {
+export class Stack extends Piece {
     public card?: HTMLDivElement;
     public cardFace?: HTMLDivElement;
     public cardBack?: HTMLDivElement;

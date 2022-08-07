@@ -7,8 +7,6 @@ import { DebugDraw } from './utils/DebugDraw';
 import { PIXEL_TO_METER, METER_TO_PIXEL, WORLD_WIDTH, WORLD_HEIGHT, PHYSICS_MAX_DRAG_FORCE } from './constants';
 import { WorldBorders } from './WorldBorders';
 import { Card } from './pieces/Card';
-import { cardBack1, cardBack2 } from './pieces/cardFaces/cardBacks';
-import { tileCard } from './pieces/cardFaces/tileCard';
 
 
 const physicsSystem = new PhysicsSystem();
@@ -40,16 +38,27 @@ flags |= b2DrawFlags.e_centerOfMassBit;
 debugDraw.SetFlags(flags);
 
 
-const cardFaceDelegate = tileCard({});
-const cardBackDelegate = cardBack1({});
 const w = 100;
 const h = 100 * 1.667;
 let x = 10 + w / 2;
 let y = 10 + h / 2;
 for (let i = 0; i < 10; i++) {
     Piece.appendPieceTo(domRoot, new Card(0, x + i * (w + 10), y, w, h)
-        .withCardFace(cardFaceDelegate)
-        .withCardBack(cardBackDelegate)
+        .withFaces({
+            front: {
+                type: 'BASIC',
+                id: `Tile-00${i}`,
+                title: 'Demo Tile',
+                description: 'Demo cards',
+            },
+            back: {
+                type: 'BASIC',
+                cardType: 'Tile',
+                color: 'navy',
+            }
+        })
+        // .withCardFace(cardFaceDelegate)
+        // .withCardBack(cardBackDelegate)
         .createDom()
         .createPhysics(physicsSystem)
     );
