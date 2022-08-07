@@ -22,7 +22,7 @@ const getPhysicsDefinitions = (width: number, height: number) => {
     fixtureDef.friction = 0;
 
     // bounciness
-    fixtureDef.restitution = 1;
+    fixtureDef.restitution = 0;
 
     fixtureDef.shape = new b2PolygonShape();
     (fixtureDef.shape as b2PolygonShape).SetAsBox(width / 2, height / 2);
@@ -40,7 +40,7 @@ const getPhysicsDefinitions = (width: number, height: number) => {
     // dynamic(moving), static(walls) or kinematic(moving walls)
     bodyDef.type = b2BodyType.b2_dynamicBody;
 
-    bodyDef.bullet = false;
+    // bodyDef.bullet = false;
 
     bodyDef.linearDamping = 0.001;
     // bodyDef.angularDamping = 1;

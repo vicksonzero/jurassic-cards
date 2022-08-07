@@ -41,7 +41,7 @@ debugDraw.SetFlags(flags);
 
 
 const cardFaceDelegate = tileCard({});
-const cardBackDelegate = cardBack2({});
+const cardBackDelegate = cardBack1({});
 const w = 100;
 const h = 100 * 1.667;
 let x = 10 + w / 2;
@@ -86,7 +86,7 @@ const createMouseJoint = (draggedBody: b2Body, point: b2Vec2) => {
 
     def.collideConnected = true;
     def.maxForce = PHYSICS_MAX_DRAG_FORCE * draggedBody.GetMass();
-    def.dampingRatio = 0.1;
+    def.dampingRatio = 1;
     def.frequencyHz = 1;
     return physicsSystem.world.CreateJoint(def);
 };
@@ -178,10 +178,10 @@ setInterval(() => {
     const ctx = debugDraw.m_ctx;
     if (ctx) ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    if (mouseJoint) mouseJoint.SetTarget(new b2Vec2(
-        mouseJoint.m_targetA.x,
-        mouseJoint.m_targetA.y
-    ));
+    // if (mouseJoint) mouseJoint.SetTarget(new b2Vec2(
+    //     mouseJoint.m_targetA.x,
+    //     mouseJoint.m_targetA.y
+    // ));
     physicsSystem.update(
         timeStep,
         // (DEBUG_PHYSICS ? this.physicsDebugLayer : undefined)

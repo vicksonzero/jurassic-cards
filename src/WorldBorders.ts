@@ -21,7 +21,7 @@ export class WorldBorders {
         fixtureDef.friction = 0;
 
         // bounciness
-        fixtureDef.restitution = 1;
+        fixtureDef.restitution = 0;
 
         fixtureDef.shape = new b2PolygonShape();
         (fixtureDef.shape as b2PolygonShape).SetAsBox(

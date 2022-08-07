@@ -127,6 +127,9 @@ export class PhysicsSystem<T extends PhysicsTransform> implements b2ContactListe
     init(contactListener: b2ContactListener = this) {
         this.world.SetAllowSleeping(PHYSICS_ALLOW_SLEEPING);
         this.world.SetContactListener(contactListener);
+        this.world.SetWarmStarting(false);
+        console.log('WarmStarting:', this.world.GetWarmStarting());
+
     }
 
     readStateFromGame() {
@@ -162,7 +165,8 @@ export class PhysicsSystem<T extends PhysicsTransform> implements b2ContactListe
 
             const pos = body.GetPosition();
             const rot = body.GetAngle(); // radians
-            // const velo = body.GetLinearVelocity();
+            const velo = body.GetLinearVelocity();
+
             // const vAngle = body.GetAngularVelocity() * RADIAN_TO_DEGREE;
 
             const x = pos.x * METER_TO_PIXEL;
@@ -170,6 +174,10 @@ export class PhysicsSystem<T extends PhysicsTransform> implements b2ContactListe
             const angle = rot * RADIAN_TO_DEGREE;
 
             gameObject.updateTransform(x, y, angle);
+            const speed = velo.Length();
+            const momentum = body.GetInertia();
+            if (speed != 0 || momentum != 0) console.log(velo.Length(), body.GetInertia());
+
             // gameObject.vx = velo.x;
             // gameObject.vy = velo.y;
             // gameObject.vAngle = vAngle;
@@ -241,8 +249,8 @@ export class PhysicsSystem<T extends PhysicsTransform> implements b2ContactListe
     }
 
     updateOneFrame(timeStep: number) {
-        const velocityIterations = 5; //how strongly to correct velocity, usually 10
-        const positionIterations = 5; //how strongly to correct position, usually 10
+        const velocityIterations = 10; //how strongly to correct velocity, usually 10
+        const positionIterations = 10; //how strongly to correct position, usually 10
         this.world.Step(timeStep, velocityIterations, positionIterations);
     }
 
