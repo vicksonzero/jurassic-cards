@@ -2,11 +2,12 @@ import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from 'rollup-plugin-babel';
-// import html from '@rollup/plugin-html';
 import scss from 'rollup-plugin-scss';
 import { terser } from 'rollup-plugin-terser';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
+import 'dotenv/config';
+
 
 const isProd = process.env.NODE_ENV === 'production';
 const extensions = ['.js', '.ts'];
@@ -80,6 +81,7 @@ export default {
             port: 8080,
             open: true,
             contentBase: [''],
+            openPage: `/?apiKey=${process.env.GOOGLE_SHEETS_API_KEY ?? ''}&workbookId=${process.env.GOOGLE_SHEETS_WORKBOOK_ID ?? ''}`
         })),
         (!isProd && livereload({
             watch: 'public',

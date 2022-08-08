@@ -1,7 +1,7 @@
-import { BasicCardBackData } from "./CardFaceFactory";
+import { PlainCardBackData } from "./CardFaceFactory";
 
 export default {
-    BASIC(cardDef: BasicCardBackData, div: HTMLDivElement) {
+    BASIC(cardDef: PlainCardBackData, div: HTMLDivElement) {
         div.style.backgroundColor = cardDef.color;
         div.style.color = 'white';
         div.style.display = 'flex';

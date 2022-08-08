@@ -9,30 +9,31 @@ export type CardData = {
 
 
 export type BaseCardFaceData = {
-    type: string,
+    style: string,
 }
 export type CardFaceReference = BaseCardFaceData & { collection: string, cardId: string };
-export type BasicCardFaceData = BaseCardFaceData & {
+export type PackedCardFaceData = BaseCardFaceData & { data: any };
+export type PlainCardFaceData = BaseCardFaceData & {
     id: string,
     title: string,
     description: string,
 };
-export type BasicCardBackData = BaseCardFaceData & {
+export type PlainCardBackData = BaseCardFaceData & {
     cardType: string,
     color: string,
 };
 
-export type CardFaceData = CardFaceReference | BasicCardFaceData | BasicCardBackData;
+export type CardFaceData = CardFaceReference | PlainCardFaceData | PlainCardBackData | PackedCardFaceData;
 
 export type CardFaceDelegate = (data: any, div: HTMLDivElement) => void;
 
 export class CardFaceFactory {
     static apply(type: 'front' | 'back', data: CardFaceData, dom: HTMLDivElement) {
         if (type === 'front') {
-            const renderer = (cardFaces as any)[data.type] as CardFaceDelegate;
+            const renderer = (cardFaces as any)[data.style] as CardFaceDelegate;
             (renderer ?? cardFaces.BASIC)(data, dom);
         } else {
-            const renderer = (cardBacks as any)[data.type] as CardFaceDelegate;
+            const renderer = (cardBacks as any)[data.style] as CardFaceDelegate;
             (renderer ?? cardBacks.BASIC)(data, dom);
         }
 
