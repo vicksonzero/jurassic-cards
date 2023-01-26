@@ -204,4 +204,11 @@ export abstract class Piece implements PhysicsTransform {
         }
         parent.appendChild(piece.dom);
     }
+
+    static getParentPiece<T extends Piece>(dom: unknown): T | undefined {
+        if (!dom) return undefined;
+        const piece = (dom as any).parentPiece as T | undefined;
+
+        return piece;
+    }
 }

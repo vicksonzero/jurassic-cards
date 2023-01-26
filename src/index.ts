@@ -48,27 +48,64 @@ import { GoogleSheets } from './utils/GoogleSheets';
     console.log(tileCards);
 
 
-    const w = 150;
-    const h = 150 * 1.667;
-    const gap = 50;// w+10
+    let w = 150;
+    let h = 150 * 1.667;
+    let gap = 50;// w+10
     let x = 10 + w / 2;
     let y = 10 + h / 2;
 
-    let ii = 0;
+    let cardId = 0;
     for (let i = 0; i < tileCards.length; i++) {
-        const tileCard = tileCards[i];
-        const copies = tileCard.copies;
-        for (let j = 0; j < copies; j++, ii++) {
-            Piece.appendPieceTo(domRoot, new Card(0, x + ii * gap, y, w, h)
+        const card = tileCards[i];
+        const copies = card.copies;
+        for (let j = 0; j < copies; j++, cardId++) {
+            Piece.appendPieceTo(domRoot, new Card(0, x + cardId * gap, y, w, h)
                 .withFaces({
                     front: {
                         style: 'TILE',
-                        data: {...tileCard, copyId: j+1},
+                        data: { ...card, copyId: j + 1 },
                     },
                     back: {
                         style: 'BASIC',
                         cardType: 'Tile',
-                        color: 'navy',
+                        color: '#538049',
+                    }
+                })
+                // .withCardFace(cardFaceDelegate)
+                // .withCardBack(cardBackDelegate)
+                .createDom()
+                .createPhysics(physicsSystem)
+            );
+        }
+
+    }
+
+
+    const itemCards = await googleSheets.GetSheetJson('Items', 'A1:J20');
+    console.log(itemCards);
+
+
+    w = 150;
+    h = 150 * 1.667;
+    gap = 50;// w+10
+    x = 10 + w / 2;
+    y = 10 + h / 2 + 10 + h;
+
+    cardId = 0;
+    for (let i = 0; i < itemCards.length; i++) {
+        const card = itemCards[i];
+        const copies = card.copies;
+        for (let j = 0; j < copies; j++, cardId++) {
+            Piece.appendPieceTo(domRoot, new Card(0, x + cardId * gap, y, w, h)
+                .withFaces({
+                    front: {
+                        style: 'ITEM',
+                        data: { ...card, copyId: j + 1 },
+                    },
+                    back: {
+                        style: 'BASIC',
+                        cardType: 'Item',
+                        color: '#abad5c',
                     }
                 })
                 // .withCardFace(cardFaceDelegate)
@@ -126,7 +163,7 @@ import { GoogleSheets } from './utils/GoogleSheets';
     window.addEventListener('pointerdown', (evt: PointerEvent) => {
         console.log('pointerdown');
 
-        const piece = (evt.target as any).parentPiece as Piece | undefined;
+        const piece = Piece.getParentPiece(evt.target);
         if (!piece) {
             deselectAllPieces();
             return;
